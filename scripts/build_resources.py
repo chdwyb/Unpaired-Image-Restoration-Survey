@@ -323,6 +323,9 @@ The source links remain the authority for each work's claims and reuse condition
              'coverage': 'curated_collection_not_global_census', 'numeric_experiment_data': False}
     (ROOT / 'data/collection_stats.json').write_text(json.dumps(stats, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({k: v for k, v in stats.items() if k != 'year_counts'}, indent=2))
+    if (ROOT / 'data/public_search_papers.csv').exists():
+        from build_public_search import build as build_public_search
+        build_public_search()
 
 
 if __name__ == '__main__':

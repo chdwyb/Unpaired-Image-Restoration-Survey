@@ -66,6 +66,20 @@ def main():
             errors.append(f'Missing primary paper URL: {row["id"]}')
         if row['code_url'] and row['code_status'] in ['', 'not_verified']:
             errors.append(f'Unqualified implementation URL: {row["id"]}')
+    search_path = ROOT / 'data/public_search_papers.csv'
+    if search_path.exists():
+        from build_public_search import FIELDS, read_csv, validate, year_counts
+        search = read_csv(search_path)
+        try:
+            validate(search)
+            if set(search[0]) != set(FIELDS):
+                errors.append('Unexpected public-search fields')
+            stored = read_csv(ROOT / 'data/public_search_year_counts.csv')
+            expected = [{k: str(v) for k, v in r.items()} for r in year_counts(search)]
+            if stored != expected:
+                errors.append('Public search annual/category counts differ from paper CSV')
+        except (AssertionError, ValueError, KeyError) as error:
+            errors.append(f'Invalid public search metadata: {error}')
     print(json.dumps({'status': 'FAIL' if errors else 'PASS', 'public_files': len(paths),
                       'paper_records': len(papers), 'errors': errors}, indent=2))
     if errors:

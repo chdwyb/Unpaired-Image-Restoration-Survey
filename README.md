@@ -15,6 +15,14 @@ Last curated: **2026-09-19**
 
 These are counts of this **curated collection**, not estimates of all papers published worldwide. Each canonical paper is counted once by publication year; task tags can overlap. Foundations and adjacent supervision settings are identified separately. The chart groups pre-2017 records in one bar; the CSV retains their original years. The latest year is incomplete. [Data and counting rules](docs/SCOPE.md) · [Year counts](data/year_counts.csv) · [Paper CSV](data/papers.csv).
 
+<!-- PUBLIC_SEARCH_APPENDIX_START -->
+## Broader public search appendix
+
+The **82-record curated guide** above supports structured reading across methods, foundations and related settings. A separate **97-paper search corpus** broadens discovery to super-resolution, underwater enhancement and other restoration tasks. These collections overlap and serve different purposes; neither is a global publication census.
+
+[Browse the search appendix and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv). Search cutoff: **2026-09-19**; 2026 is incomplete.
+<!-- PUBLIC_SEARCH_APPENDIX_END -->
+
 ## Six-task index
 
 | Task | Core records | Browse |
