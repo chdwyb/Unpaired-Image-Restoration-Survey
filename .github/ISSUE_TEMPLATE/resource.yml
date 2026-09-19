@@ -1,0 +1,29 @@
+name: Add or correct a resource
+description: Suggest a published paper, public preprint, implementation, or dataset.
+title: "[Resource] "
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Paper or dataset title
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary sources
+      description: Link the original paper or publisher record and any author-linked repository.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Task and supervision setting
+      description: Explain the unpaired setting and any paired pretraining or generated-pair stage.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Proposed addition or correction
+      description: Include the publication year and evidence for code or license claims.

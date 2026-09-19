@@ -1,0 +1,122 @@
+{
+  "last_curated": "2026-09-19",
+  "paper_records": 82,
+  "scope_counts": {
+    "adjacent": 8,
+    "core": 55,
+    "foundation": 19
+  },
+  "code_links": 30,
+  "dataset_records": 26,
+  "task_counts_core_nonexclusive": {
+    "denoising": 11,
+    "deblurring": 8,
+    "dehazing": 16,
+    "low-light": 7,
+    "deraining": 16,
+    "desnowing": 2
+  },
+  "year_counts": [
+    {
+      "year": 1971,
+      "core": 0,
+      "foundation": 1,
+      "adjacent": 0,
+      "total": 1
+    },
+    {
+      "year": 2007,
+      "core": 0,
+      "foundation": 1,
+      "adjacent": 0,
+      "total": 1
+    },
+    {
+      "year": 2009,
+      "core": 0,
+      "foundation": 1,
+      "adjacent": 0,
+      "total": 1
+    },
+    {
+      "year": 2014,
+      "core": 0,
+      "foundation": 1,
+      "adjacent": 0,
+      "total": 1
+    },
+    {
+      "year": 2017,
+      "core": 0,
+      "foundation": 3,
+      "adjacent": 0,
+      "total": 3
+    },
+    {
+      "year": 2018,
+      "core": 2,
+      "foundation": 3,
+      "adjacent": 2,
+      "total": 7
+    },
+    {
+      "year": 2019,
+      "core": 3,
+      "foundation": 0,
+      "adjacent": 1,
+      "total": 4
+    },
+    {
+      "year": 2020,
+      "core": 4,
+      "foundation": 2,
+      "adjacent": 1,
+      "total": 7
+    },
+    {
+      "year": 2021,
+      "core": 6,
+      "foundation": 2,
+      "adjacent": 1,
+      "total": 9
+    },
+    {
+      "year": 2022,
+      "core": 8,
+      "foundation": 1,
+      "adjacent": 0,
+      "total": 9
+    },
+    {
+      "year": 2023,
+      "core": 6,
+      "foundation": 2,
+      "adjacent": 0,
+      "total": 8
+    },
+    {
+      "year": 2024,
+      "core": 11,
+      "foundation": 2,
+      "adjacent": 0,
+      "total": 13
+    },
+    {
+      "year": 2025,
+      "core": 10,
+      "foundation": 0,
+      "adjacent": 0,
+      "total": 10
+    },
+    {
+      "year": 2026,
+      "core": 5,
+      "foundation": 0,
+      "adjacent": 3,
+      "total": 8
+    }
+  ],
+  "counting_unit": "one canonical bibliographic record",
+  "coverage": "curated_collection_not_global_census",
+  "numeric_experiment_data": false
+}

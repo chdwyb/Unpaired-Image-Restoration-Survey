@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+.venv/
+.preview/
+build/
+.DS_Store
+Thumbs.db
+# Resource metadata only: keep paper drafts, experiments and checkpoints private.
+*.tex
+*.bib
+*.pdf
+*.aux
+*.bbl
+*.log
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*mock*
+*comparison_metrics*
