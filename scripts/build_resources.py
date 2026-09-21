@@ -128,6 +128,7 @@ def build_chart(rows, checked):
     core = [r for r in rows if r['scope'] == 'core']
     coverage = {task: sum(task in task_tags(r['tasks']) for r in core) for task, _ in TASKS}
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 11, 'svg.fonttype': 'none',
+                         'svg.hashsalt': 'unpaired-reading-guide',
                          'axes.spines.top': False, 'axes.spines.right': False, 'axes.labelcolor': '#344054',
                          'text.color': '#182230', 'xtick.color': '#475467', 'ytick.color': '#475467'})
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.7), gridspec_kw={'width_ratios': [1.4, 1]})
@@ -191,6 +192,17 @@ def build_chart(rows, checked):
 def build(checked):
     for folder in ['assets', 'docs', 'data']:
         (ROOT / folder).mkdir(exist_ok=True)
+    from build_public_search import build as build_public_search
+    build_public_search()
+    from build_dataset_catalog import build as build_dataset_catalog
+    build_dataset_catalog()
+    corpus = read_csv(ROOT / 'data/public_search_papers.csv')
+    corpus_scopes = collections.Counter(r['scope'] for r in corpus)
+    corpus.sort(key=lambda r: (-int(r['year']), r['title'].lower()))
+    corpus_coverage = {task: sum(r['scope'] == 'six_task' and task in task_tags(r['tasks'])
+                               for r in corpus) for task, _ in TASKS}
+    main_datasets = read_csv(ROOT / 'data/datasets_main.csv')
+    full_datasets = read_csv(ROOT / 'data/datasets_supplementary.csv')
     rows = validate(read_csv(ROOT / 'data/papers.csv'))
     rows.sort(key=lambda r: (-int(r['year']), r['title'].lower()))
     datasets = read_csv(ROOT / 'data/datasets.csv')
@@ -199,35 +211,53 @@ def build(checked):
     linked = sum(bool(r['code_url']) for r in rows)
     years = sorted({int(r['year']) for r in rows}, reverse=True)
     nav = ' · '.join(f'[{y}](#year-{y})' for y in years)
-    task_index = ['| Task | Core records | Browse |', '|---|---:|---|']
+    task_index = ['| Task | Counted-corpus records | Browse |', '|---|---:|---|']
     for task, label in TASKS:
-        task_index.append(f'| {label} | {coverage[task]} | [Papers and access notes](docs/TASKS.md#{task}) |')
+        task_index.append(f'| {label} | {corpus_coverage[task]} | [Papers and access notes](docs/TASKS.md#{task}) |')
     summary = f'''# Unpaired Image Restoration
 
 **A curated research resource for papers, implementations and datasets.**
 
 Explore restoration learned without aligned task-specific degraded–clean targets, with related foundations and supervision settings labelled separately.
 
-**{len(rows)} records** · **{scopes['core']} core restoration papers** · **{linked} author-code links** · **{len(datasets)} dataset entries**  
+**{len(corpus)} counted papers** · **{len(main_datasets)} real-data entries** · **{len(full_datasets)} full-inventory entries** · **6 evaluation tasks**
+
 Last curated: **{checked}**
 
-[Papers by year](#papers-by-year) · [Six tasks](#six-task-index) · [Datasets](docs/DATASETS.md) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md) · [Contribute](CONTRIBUTING.md)
+[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
 
 ## Collection overview
 
-![Publication-year distribution and six-task coverage computed from the catalog.](assets/collection-overview.svg)
+![Annual counts and coverage of the {len(corpus)}-paper corpus.](assets/corpus-overview.svg)
 
-These are counts of this **curated collection**, not estimates of all papers published worldwide. Each canonical paper is counted once by publication year; task tags can overlap. Foundations and adjacent supervision settings are identified separately. The chart groups pre-2017 records in one bar; the CSV retains their original years. The latest year is incomplete. [Data and counting rules](docs/SCOPE.md) · [Year counts](data/year_counts.csv) · [Paper CSV](data/papers.csv).
+The counted corpus contains **{corpus_scopes['six_task']} six-task restoration papers**, **{corpus_scopes['broader_restoration']} papers on super-resolution, underwater enhancement and sand/dust removal**, and **{corpus_scopes['translation']} general or weather-translation papers**. Each paper belongs to one counting group and appears once. These are counts of the screened collection, not worldwide publication totals; 2026 is incomplete. [Full paper list and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv).
+
+The **{len(rows)}-record selected reading guide** below also includes methodological foundations and adjacent supervision settings. It overlaps the counted corpus and is not an additional {len(rows)} papers. Its **{linked} author-code links** are listed with access notes. [Counting rules](docs/SCOPE.md).
+
+## Evaluation datasets
+
+| Task | Selected dataset | Input source |
+|---|---|---|
+| Denoising | RENOIR | Real |
+| Defocus deblurring | DPDD | Real |
+| Dehazing | LMHaze | Real |
+| Low-light enhancement | LSRW | Real |
+| Deraining | SPA-Data | Real |
+| Desnowing | RealSnow | Real |
+
+The [dataset catalog](docs/DATASET_CATALOG.md) links the original sources and lists **{len(main_datasets)} real-input entries** used in dataset coverage analysis, plus the **{len(full_datasets)}-entry full inventory** in six task groups. The real-input table includes a **Real/Synth.** column; controlled physical capture is classified as real. Real input does not imply exact pixel alignment, and reference construction is described separately.
 
 ## Six-task index
 
 {chr(10).join(task_index)}
 
-The [task index](docs/TASKS.md) also identifies cross-task foundations and related super-resolution or enhancement work. A task tag describes a paper's documented scope; it does not claim transfer to every benchmark for that task.
+This navigation table counts the {corpus_scopes['six_task']} papers in the six-task group. Task tags overlap and describe documented scope, not transfer to every benchmark. The [full corpus](docs/PUBLIC_SEARCH_2026.md) also includes broader restoration and general/weather translation; related foundations remain available in the selected reading guide.
 
 ## Dataset guide
 
 Start with the data's **capture process and reference type**. Captured paired benchmarks, digitally synthesized pairs, independent image collections and scene correspondences support different evaluations.
+
+The [complete dataset catalog](docs/DATASET_CATALOG.md) provides the two synchronized inventories. The following {len(datasets)}-entry primer highlights reference construction and protocol distinctions.
 
 - [Captured paired data](docs/DATASETS.md#captured-paired-data): noisy/reference captures, real blur, controlled haze, exposure pairs, and video-derived rain or snow targets.
 - [Synthetic paired data](docs/DATASETS.md#synthetic-paired-data): digital or video-integrated degradations with corresponding clean targets.
@@ -237,6 +267,10 @@ Start with the data's **capture process and reference type**. Captured paired be
 Withholding correspondence can define an unpaired training protocol on paired data. It does not remove the need to document scene overlap, splits and reference use. The [dataset guide](docs/DATASETS.md) records these distinctions without combining incomparable scores.
 
 ## Papers by year
+
+### Selected reading guide
+
+The tables below contain {len(rows)} selected and background records. For all {len(corpus)} counted papers, including expanded restoration and translation coverage, use the [full corpus](docs/PUBLIC_SEARCH_2026.md).
 
 {nav}
 
@@ -254,28 +288,33 @@ The navigation conventions of the [All-in-One Image Restoration resource collect
 '''
     (ROOT / 'README.md').write_text(summary, encoding='utf-8')
     taskdoc = ['# Task index', '', '[Back to overview](../README.md)', '',
-               'Core records are grouped by documented restoration task. Multi-task papers appear in more than one section.']
+               f'The {corpus_scopes["six_task"]} six-task records in the [counted corpus](PUBLIC_SEARCH_2026.md) are grouped by documented restoration task. Multi-task papers appear in more than one section.']
     for task, label in TASKS:
         taskdoc += ['', f'<a id="{task}"></a>', '', f'## {label}', '',
                     '| Method / paper | Year | Supervision and access |', '|---|---:|---|']
-        for r in rows:
-            if r['scope'] == 'core' and task in task_tags(r['tasks']):
+        for r in corpus:
+            if r['scope'] == 'six_task' and task in task_tags(r['tasks']):
                 taskdoc.append(f'| {link(paper_name(r), r["paper_url"])} | {r["year"]} | {md(access_text(r))} |')
     taskdoc += ['', '## Related tasks and foundations', '',
-                'General translation foundations and other restoration tasks are listed here without relabelling them as six-task evaluations.', '',
+                'The [full corpus](PUBLIC_SEARCH_2026.md) includes underwater enhancement, super-resolution, sand/dust removal, and general/weather translation. Selected background works below are not relabelled as six-task evaluations.', '',
                 paper_table([r for r in rows if r['scope'] != 'core' or not set(task_tags(r['tasks'])) & {t for t, _ in TASKS}], False)]
     (ROOT / 'docs/TASKS.md').write_text('\n'.join(taskdoc) + '\n', encoding='utf-8')
+    code_catalog = {re.sub(r'[^a-z0-9]', '', r['title'].lower()): r for r in rows}
+    code_catalog.update({re.sub(r'[^a-z0-9]', '', r['title'].lower()): r for r in corpus})
+    code_rows = sorted(code_catalog.values(), key=lambda r: (-int(r['year']), r['title'].lower()))
     codedoc = ['# Implementation index', '', '[Back to overview](../README.md)', '',
+               f'This index combines the {len(corpus)}-paper counted corpus with the selected reading guide, merging overlapping titles. The counted corpus supplies {sum(bool(r["code_url"]) for r in corpus)} author-code links.', '',
                'Author-linked public repositories are access records, not reproduced experiments. A repository can omit training components or checkpoints. Consult each license before reuse.', '',
                '| Method / paper | Year | Public implementation | Release status | Access conditions |', '|---|---:|---|---|---|']
-    for r in rows:
+    for r in code_rows:
         if r['code_url']:
             codedoc.append(f'| {link(paper_name(r), r["paper_url"])} | {r["year"]} | {link("Repository", r["code_url"])} | {md(r["code_status"].replace("_", " "))} | {md(access_text(r))} |')
     codedoc += ['', '## No implementation link verified', '',
-                ', '.join(link(paper_name(r), r['paper_url']) for r in rows if not r['code_url']) + '.', '',
+                ', '.join(link(paper_name(r), r['paper_url']) for r in code_rows if not r['code_url']) + '.', '',
                 'A missing link means that this collection has not established an attributable public implementation; it is not a claim that no implementation exists.']
     (ROOT / 'docs/CODE.md').write_text('\n'.join(codedoc) + '\n', encoding='utf-8')
     datasetdoc = ['# Dataset guide', '', '[Back to overview](../README.md)', '',
+                  f'For the {len(main_datasets)}-entry real-input table, the full {len(full_datasets)}-entry inventory, and the six selected evaluation datasets, see the [complete dataset catalog](DATASET_CATALOG.md). This page is a smaller protocol-oriented primer.', '',
                   'Training pairing and evaluation pairing are separate choices. References can be directly captured, processed estimates or scene correspondences. Follow the original release terms; this directory does not redistribute data.']
     groups = [('captured-paired-data', 'Captured paired data', lambda r: r['pairing'] in ['paired', 'paired estimated target']),
               ('synthetic-paired-data', 'Synthetic paired data', lambda r: r['pairing'] == 'paired synthetic degradation'),
@@ -294,7 +333,13 @@ The navigation conventions of the [All-in-One Image Restoration resource collect
 
 This is a selective, manually curated resource index, checked through **{checked}**. It is not a systematic-review census or a benchmark leaderboard.
 
+## Primary counted corpus
+
+The main overview uses [public_search_papers.csv](../data/public_search_papers.csv): **{len(corpus)} canonical papers**, grouped into **{corpus_scopes['six_task']} six-task restoration**, **{corpus_scopes['broader_restoration']} broader restoration**, and **{corpus_scopes['translation']} general/weather translation** records. The [full corpus page](PUBLIC_SEARCH_2026.md) defines these mutually exclusive groups and provides the annual table. Its chart and [annual CSV](../data/public_search_year_counts.csv) use the same collection. The 2026 count is partial.
+
 ## Inclusion categories
+
+The following categories refer to the separate **{len(rows)}-record selected reading guide**, not to the primary counted corpus. The collections overlap and must not be added together.
 
 - **Core restoration ({scopes['core']} records):** papers whose documented task includes restoration under an unpaired or unsupervised learning regime. Read the per-paper training-access note: generated pairs, pretrained priors and related-scene references can change the information available.
 - **Foundations ({scopes['foundation']} records):** general translation or generative methods that provide relevant tools but are not automatically restoration evaluations.
@@ -304,9 +349,13 @@ These labels organize reading. They do not establish that all papers share an id
 
 ## Reproducible counts
 
-The canonical source is [`data/papers.csv`](../data/papers.csv). Each row has a unique `id`; aliases and preprint revisions should not duplicate that row. Year grouping uses the catalog's explicit `year_basis`, normally the final conference/journal year, or the preprint year when only a preprint record is established. Multi-task labels are nonexclusive, so task counts need not sum to the number of papers.
+The selected guide's source is [`data/papers.csv`](../data/papers.csv). Each row has a unique `id`; aliases and preprint revisions should not duplicate that row. Year grouping uses the catalog's explicit `year_basis`, normally the final conference/journal year, or the preprint year when only a preprint record is established. Multi-task labels are nonexclusive, so task counts need not sum to the number of papers.
 
-The plot and [`year_counts.csv`](../data/year_counts.csv) are rebuilt with `python scripts/build_resources.py`. Annual bars count all records with scope shown separately. Pre-2017 records are grouped into one bar for readability; the CSV preserves each original year. The latest calendar year is incomplete. The task panel counts only core records carrying each of the six task tags. No missing-year extrapolation, global publication-volume estimate, citation impact or performance ranking is inferred.
+The selected guide's auxiliary [plot](../assets/collection-overview.svg) and [`year_counts.csv`](../data/year_counts.csv) are rebuilt with `python scripts/build_resources.py`. Its annual bars count all guide records with scope shown separately; pre-2017 records are grouped into one bar. This auxiliary chart is separate from the primary {len(corpus)}-paper chart. The task panel counts guide core records carrying each of the six task tags. No missing-year extrapolation, worldwide publication estimate, citation impact or performance ranking is inferred.
+
+## Dataset inventories
+
+The [complete dataset catalog](DATASET_CATALOG.md) has **{len(main_datasets)} real-input task-specific entries** and **{len(full_datasets)} extended-inventory entries** across six task groups. These overlapping views have different purposes and their counts must not be added. A multi-task collection can occur in several task groups. The six selected evaluation datasets are RENOIR, DPDD, LMHaze, LSRW, SPA-Data and RealSnow. `Real/Synth.` describes the degraded input, independently of pairing, alignment or clean-reference construction.
 
 ## Access and evidence
 
@@ -318,14 +367,15 @@ The source links remain the authority for each work's claims and reuse condition
 '''
     (ROOT / 'docs/SCOPE.md').write_text(scope, encoding='utf-8')
     stats = {'last_curated': checked, 'paper_records': len(rows), 'scope_counts': dict(scopes),
+             'counted_corpus_records': len(corpus), 'main_dataset_entries': len(main_datasets),
+             'full_dataset_entries': len(full_datasets), 'selected_evaluation_tasks': 6,
+             'counted_corpus_code_links': sum(bool(r['code_url']) for r in corpus),
+             'counted_task_coverage_nonexclusive': corpus_coverage,
              'code_links': linked, 'dataset_records': len(datasets), 'task_counts_core_nonexclusive': coverage,
              'year_counts': year_rows, 'counting_unit': 'one canonical bibliographic record',
              'coverage': 'curated_collection_not_global_census', 'numeric_experiment_data': False}
     (ROOT / 'data/collection_stats.json').write_text(json.dumps(stats, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({k: v for k, v in stats.items() if k != 'year_counts'}, indent=2))
-    if (ROOT / 'data/public_search_papers.csv').exists():
-        from build_public_search import build as build_public_search
-        build_public_search()
 
 
 if __name__ == '__main__':

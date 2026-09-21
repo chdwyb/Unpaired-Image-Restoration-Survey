@@ -1,10 +1,23 @@
 {
-  "last_curated": "2026-09-19",
+  "last_curated": "2026-09-21",
   "paper_records": 82,
   "scope_counts": {
     "adjacent": 8,
     "core": 55,
     "foundation": 19
+  },
+  "counted_corpus_records": 142,
+  "main_dataset_entries": 59,
+  "full_dataset_entries": 160,
+  "selected_evaluation_tasks": 6,
+  "counted_corpus_code_links": 43,
+  "counted_task_coverage_nonexclusive": {
+    "denoising": 11,
+    "deblurring": 10,
+    "dehazing": 28,
+    "low-light": 10,
+    "deraining": 18,
+    "desnowing": 2
   },
   "code_links": 30,
   "dataset_records": 26,

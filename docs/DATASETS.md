@@ -2,6 +2,8 @@
 
 [Back to overview](../README.md)
 
+For the 59-entry real-input table, the full 160-entry inventory, and the six selected evaluation datasets, see the [complete dataset catalog](DATASET_CATALOG.md). This page is a smaller protocol-oriented primer.
+
 Training pairing and evaluation pairing are separate choices. References can be directly captured, processed estimates or scene correspondences. Follow the original release terms; this directory does not redistribute data.
 
 <a id="captured-paired-data"></a>

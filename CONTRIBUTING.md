@@ -4,7 +4,7 @@ Add a paper, correct an entry, or improve a dataset note through an issue or a p
 
 ## Paper entries
 
-Edit `data/papers.csv`. Supply a stable identifier, exact title, method name when one is used by the authors, publication year and venue, a primary paper link, task tags, and a supervision/access note. An author project or repository can establish an implementation link; a similarly named third-party repository is not an author release.
+For the counted corpus, edit `data/public_search_papers.csv` and supply its counting group, citation identifier and year basis. `data/papers.csv` is a separate selected/background reading guide; the two collections overlap and must not be added together. Supply a stable identifier, exact title, method name when one is used by the authors, publication year and venue, a primary paper link, task tags, and a supervision/access note. An author project or repository can establish an implementation link; a similarly named third-party repository is not an author release.
 
 - Prefer the final journal or conference record. Keep a preprint visibly labelled when no publication record has been established.
 - Use one canonical record per paper. Revisions of the same paper are not additional papers; a substantially expanded journal publication can be recorded separately when identified as such.
@@ -15,7 +15,7 @@ Edit `data/papers.csv`. Supply a stable identifier, exact title, method name whe
 
 ## Dataset entries
 
-Edit `data/datasets.csv`. Link to the original paper, official dataset page, or author repository. Describe acquisition and reference construction separately: captured images can still have synthetic degradation, and scene correspondences need not be pixel-aligned references. Avoid adding sample counts unless the exact release and counting unit are specified.
+Edit `data/datasets_main.csv` for the real-input coverage view, `data/datasets_supplementary.csv` for the extended six-task inventory, or `data/datasets.csv` for the shorter protocol guide. Link to the original paper, official dataset page, or author repository. Describe acquisition and reference construction separately: captured scenes can still have digital degradation, and scene correspondences need not be pixel-aligned references. `Real/Synth.` describes degraded-input origin; controlled physical capture belongs to `Real`. Preserve exact release and counting units when reporting sample counts.
 
 ## Regenerate and check
 

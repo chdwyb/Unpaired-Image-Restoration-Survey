@@ -4,41 +4,51 @@
 
 Explore restoration learned without aligned task-specific degraded–clean targets, with related foundations and supervision settings labelled separately.
 
-**82 records** · **55 core restoration papers** · **30 author-code links** · **26 dataset entries**  
-Last curated: **2026-09-19**
+**142 counted papers** · **59 real-data entries** · **160 full-inventory entries** · **6 evaluation tasks**
 
-[Papers by year](#papers-by-year) · [Six tasks](#six-task-index) · [Datasets](docs/DATASETS.md) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md) · [Contribute](CONTRIBUTING.md)
+Last curated: **2026-09-21**
+
+[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
 
 ## Collection overview
 
-![Publication-year distribution and six-task coverage computed from the catalog.](assets/collection-overview.svg)
+![Annual counts and coverage of the 142-paper corpus.](assets/corpus-overview.svg)
 
-These are counts of this **curated collection**, not estimates of all papers published worldwide. Each canonical paper is counted once by publication year; task tags can overlap. Foundations and adjacent supervision settings are identified separately. The chart groups pre-2017 records in one bar; the CSV retains their original years. The latest year is incomplete. [Data and counting rules](docs/SCOPE.md) · [Year counts](data/year_counts.csv) · [Paper CSV](data/papers.csv).
+The counted corpus contains **68 six-task restoration papers**, **51 papers on super-resolution, underwater enhancement and sand/dust removal**, and **23 general or weather-translation papers**. Each paper belongs to one counting group and appears once. These are counts of the screened collection, not worldwide publication totals; 2026 is incomplete. [Full paper list and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv).
 
-<!-- PUBLIC_SEARCH_APPENDIX_START -->
-## Broader public search appendix
+The **82-record selected reading guide** below also includes methodological foundations and adjacent supervision settings. It overlaps the counted corpus and is not an additional 82 papers. Its **30 author-code links** are listed with access notes. [Counting rules](docs/SCOPE.md).
 
-The **82-record curated guide** above supports structured reading across methods, foundations and related settings. A separate **97-paper search corpus** broadens discovery to super-resolution, underwater enhancement and other restoration tasks. These collections overlap and serve different purposes; neither is a global publication census.
+## Evaluation datasets
 
-[Browse the search appendix and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv). Search cutoff: **2026-09-19**; 2026 is incomplete.
-<!-- PUBLIC_SEARCH_APPENDIX_END -->
+| Task | Selected dataset | Input source |
+|---|---|---|
+| Denoising | RENOIR | Real |
+| Defocus deblurring | DPDD | Real |
+| Dehazing | LMHaze | Real |
+| Low-light enhancement | LSRW | Real |
+| Deraining | SPA-Data | Real |
+| Desnowing | RealSnow | Real |
+
+The [dataset catalog](docs/DATASET_CATALOG.md) links the original sources and lists **59 real-input entries** used in dataset coverage analysis, plus the **160-entry full inventory** in six task groups. The real-input table includes a **Real/Synth.** column; controlled physical capture is classified as real. Real input does not imply exact pixel alignment, and reference construction is described separately.
 
 ## Six-task index
 
-| Task | Core records | Browse |
+| Task | Counted-corpus records | Browse |
 |---|---:|---|
 | Denoising | 11 | [Papers and access notes](docs/TASKS.md#denoising) |
-| Deblurring | 8 | [Papers and access notes](docs/TASKS.md#deblurring) |
-| Dehazing | 16 | [Papers and access notes](docs/TASKS.md#dehazing) |
-| Low-light enhancement | 7 | [Papers and access notes](docs/TASKS.md#low-light) |
-| Deraining | 16 | [Papers and access notes](docs/TASKS.md#deraining) |
+| Deblurring | 10 | [Papers and access notes](docs/TASKS.md#deblurring) |
+| Dehazing | 28 | [Papers and access notes](docs/TASKS.md#dehazing) |
+| Low-light enhancement | 10 | [Papers and access notes](docs/TASKS.md#low-light) |
+| Deraining | 18 | [Papers and access notes](docs/TASKS.md#deraining) |
 | Desnowing | 2 | [Papers and access notes](docs/TASKS.md#desnowing) |
 
-The [task index](docs/TASKS.md) also identifies cross-task foundations and related super-resolution or enhancement work. A task tag describes a paper's documented scope; it does not claim transfer to every benchmark for that task.
+This navigation table counts the 68 papers in the six-task group. Task tags overlap and describe documented scope, not transfer to every benchmark. The [full corpus](docs/PUBLIC_SEARCH_2026.md) also includes broader restoration and general/weather translation; related foundations remain available in the selected reading guide.
 
 ## Dataset guide
 
 Start with the data's **capture process and reference type**. Captured paired benchmarks, digitally synthesized pairs, independent image collections and scene correspondences support different evaluations.
+
+The [complete dataset catalog](docs/DATASET_CATALOG.md) provides the two synchronized inventories. The following 26-entry primer highlights reference construction and protocol distinctions.
 
 - [Captured paired data](docs/DATASETS.md#captured-paired-data): noisy/reference captures, real blur, controlled haze, exposure pairs, and video-derived rain or snow targets.
 - [Synthetic paired data](docs/DATASETS.md#synthetic-paired-data): digital or video-integrated degradations with corresponding clean targets.
@@ -48,6 +58,10 @@ Start with the data's **capture process and reference type**. Captured paired be
 Withholding correspondence can define an unpaired training protocol on paired data. It does not remove the need to document scene overlap, splits and reference use. The [dataset guide](docs/DATASETS.md) records these distinctions without combining incomparable scores.
 
 ## Papers by year
+
+### Selected reading guide
+
+The tables below contain 82 selected and background records. For all 142 counted papers, including expanded restoration and translation coverage, use the [full corpus](docs/PUBLIC_SEARCH_2026.md).
 
 [2026](#year-2026) · [2025](#year-2025) · [2024](#year-2024) · [2023](#year-2023) · [2022](#year-2022) · [2021](#year-2021) · [2020](#year-2020) · [2019](#year-2019) · [2018](#year-2018) · [2017](#year-2017) · [2014](#year-2014) · [2009](#year-2009) · [2007](#year-2007) · [1971](#year-1971)
 

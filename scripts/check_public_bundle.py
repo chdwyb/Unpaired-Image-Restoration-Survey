@@ -80,6 +80,32 @@ def main():
                 errors.append('Public search annual/category counts differ from paper CSV')
         except (AssertionError, ValueError, KeyError) as error:
             errors.append(f'Invalid public search metadata: {error}')
+        if stats.get('counted_corpus_records') != len(search):
+            errors.append('Primary corpus headline count differs from public paper CSV')
+        if stats.get('counted_corpus_code_links') != sum(bool(r['code_url']) for r in search):
+            errors.append('Primary corpus implementation count differs from public paper CSV')
+        from build_resources import task_tags
+        for task, count in stats.get('counted_task_coverage_nonexclusive', {}).items():
+            actual = sum(r['scope'] == 'six_task' and task in task_tags(r['tasks']) for r in search)
+            if count != actual:
+                errors.append(f'Primary corpus task count differs: {task}')
+        foundation_keys = {'google2026nanobanana2', 'sun2026nanobananair', 'yang2026realrestorer',
+                           'yilmaz2026edit2restore', 'Yu2024SUPIR', 'Lin2024DiffBIR',
+                           'Conde2024InstructIR', 'Chen2024RestoreAgent', 'Zhu2025AgenticIR',
+                           'Kuai2025DTBFR', 'Kong2026GGT100K', 'Zhao2026StructuralRefinement'}
+        if foundation_keys & {r.get('citation_key') for r in search}:
+            errors.append('Out-of-scope foundation-restoration references entered the corpus')
+    try:
+        from build_dataset_catalog import build as check_datasets
+        check_datasets(check=True)
+        for filename, field in [('datasets_main.csv', 'main_dataset_entries'),
+                                ('datasets_supplementary.csv', 'full_dataset_entries')]:
+            with (ROOT/'data'/filename).open(encoding='utf-8-sig') as handle:
+                entries = list(csv.DictReader(handle))
+            if stats.get(field) != len(entries):
+                errors.append(f'Dataset headline count differs from {filename}')
+    except (AssertionError, ValueError, KeyError) as error:
+        errors.append(f'Invalid dataset metadata: {error}')
     print(json.dumps({'status': 'FAIL' if errors else 'PASS', 'public_files': len(paths),
                       'paper_records': len(papers), 'errors': errors}, indent=2))
     if errors:
