@@ -17,6 +17,10 @@ For the counted corpus, edit `data/public_search_papers.csv` and supply its coun
 
 Edit `data/datasets_main.csv` for the real-input coverage view, `data/datasets_supplementary.csv` for the extended six-task inventory, or `data/datasets.csv` for the shorter protocol guide. Link to the original paper, official dataset page, or author repository. Describe acquisition and reference construction separately: captured scenes can still have digital degradation, and scene correspondences need not be pixel-aligned references. `Real/Synth.` describes degraded-input origin; controlled physical capture belongs to `Real`. Preserve exact release and counting units when reporting sample counts.
 
+## Method and protocol notes
+
+`data/comparison_methods.csv` records the twelve comparison methods and their original task focus. `docs/METHODS.md` is generated from this metadata and the paper catalogs. Preserve the distinction between each method's original application and its separate training or adaptation for each evaluation task. The literature-count cutoff is independent of the date on which resource links or descriptions are updated; additions to the selected reading guide do not automatically change the frozen counted corpus.
+
 ## Regenerate and check
 
 ```sh

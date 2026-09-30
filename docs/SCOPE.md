@@ -2,7 +2,7 @@
 
 [Back to overview](../README.md)
 
-This is a selective, manually curated resource index, checked through **2026-09-21**. It is not a systematic-review census or a benchmark leaderboard.
+This is a selective, manually curated resource index, synchronized on **2026-10-01**. Its counted literature snapshot retains the **2026-09-21** cutoff. Resource maintenance and code-link checks do not extend that literature-search cutoff. It is not a systematic-review census or a benchmark leaderboard.
 
 ## Primary counted corpus
 
@@ -10,11 +10,13 @@ The main overview uses [public_search_papers.csv](../data/public_search_papers.c
 
 ## Inclusion categories
 
-The following categories refer to the separate **82-record selected reading guide**, not to the primary counted corpus. The collections overlap and must not be added together.
+The following categories refer to the separate **85-record selected reading guide**, not to the primary counted corpus. The collections overlap and must not be added together.
 
-- **Core restoration (55 records):** papers whose documented task includes restoration under an unpaired or unsupervised learning regime. Read the per-paper training-access note: generated pairs, pretrained priors and related-scene references can change the information available.
+The selected guide can receive additions after the timeline screening date. These additions do not change the frozen corpus or its annual chart.
+
+- **Core restoration (57 records):** papers whose documented task includes restoration under an unpaired or unsupervised learning regime. Read the per-paper training-access note: generated pairs, pretrained priors and related-scene references can change the information available.
 - **Foundations (19 records):** general translation or generative methods that provide relevant tools but are not automatically restoration evaluations.
-- **Adjacent settings (8 records):** related supervision or restoration approaches whose access assumptions differ from the core setting.
+- **Adjacent settings (9 records):** related supervision or restoration approaches whose access assumptions differ from the core setting.
 
 These labels organize reading. They do not establish that all papers share an identical supervision budget.
 

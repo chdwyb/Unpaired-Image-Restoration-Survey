@@ -6,6 +6,8 @@ For the 59-entry real-input table, the full 160-entry inventory, and the six sel
 
 Training pairing and evaluation pairing are separate choices. References can be directly captured, processed estimates or scene correspondences. Follow the original release terms; this directory does not redistribute data.
 
+For the six-task comparison, all twelve methods are separately retrained or adapted on independent degraded and clean training pools. Matched clean images are not supplied as training targets; corresponding references are reserved for test evaluation. See the [method and protocol guide](METHODS.md#training-and-evaluation-protocol).
+
 <a id="captured-paired-data"></a>
 
 ## Captured paired data
@@ -20,6 +22,7 @@ Training pairing and evaluation pairing are separate choices. References can be 
 | [I-HAZE](https://arxiv.org/abs/1804.05091) | dehazing | controlled physical haze; paired | Haze is physically generated and photographed; this is not digital synthesis or natural fog sampling. |
 | [O-HAZE](https://openaccess.thecvf.com/content_cvpr_2018_workshops/w13/html/Ancuti_O-HAZE_A_Dehazing_CVPR_2018_paper.html) | dehazing | controlled physical haze; paired | Record the benchmark release and split; references are separately captured clear scenes. |
 | [NH-HAZE](https://openaccess.thecvf.com/content_CVPRW_2020/papers/w31/Ancuti_NH-HAZE_An_Image_Dehazing_Benchmark_With_Non-Homogeneous_Hazy_and_Haze-Free_CVPRW_2020_paper.pdf) | dehazing | controlled physical haze; paired | Spatially nonuniform haze tests a different capture regime from uniform controlled haze. |
+| [LMHaze](https://github.com/wangzrk/LMHaze) | dehazing | controlled physical haze; paired | Physically generated haze is captured across indoor and outdoor scenes at multiple intensities; this is the selected dehazing dataset. |
 | [LOL](https://arxiv.org/abs/1808.04560) | low-light | captured; paired | Identify LOL-v1 or the exact later release; normal-light exposure is a selected target. |
 | [LSRW](https://github.com/JianghaiSCU/R2RNet) | low-light | captured; paired | Some outdoor pairs have local offsets; report registration and device subsets. |
 | [SICE](https://csjcai.github.io/papers/SICE.pdf) | low-light | captured multiexposure; paired | Keep source exposure sequences disjoint; references involve selected enhancement or fusion outputs. |

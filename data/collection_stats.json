@@ -1,15 +1,17 @@
 {
-  "last_curated": "2026-09-21",
-  "paper_records": 82,
+  "last_curated": "2026-10-01",
+  "paper_records": 85,
   "scope_counts": {
-    "adjacent": 8,
-    "core": 55,
+    "adjacent": 9,
+    "core": 57,
     "foundation": 19
   },
   "counted_corpus_records": 142,
   "main_dataset_entries": 59,
   "full_dataset_entries": 160,
   "selected_evaluation_tasks": 6,
+  "comparison_methods": 12,
+  "literature_cutoff": "2026-09-21",
   "counted_corpus_code_links": 43,
   "counted_task_coverage_nonexclusive": {
     "denoising": 11,
@@ -19,14 +21,14 @@
     "deraining": 18,
     "desnowing": 2
   },
-  "code_links": 30,
-  "dataset_records": 26,
+  "code_links": 32,
+  "dataset_records": 27,
   "task_counts_core_nonexclusive": {
-    "denoising": 11,
+    "denoising": 12,
     "deblurring": 8,
     "dehazing": 16,
     "low-light": 7,
-    "deraining": 16,
+    "deraining": 17,
     "desnowing": 2
   },
   "year_counts": [
@@ -95,10 +97,10 @@
     },
     {
       "year": 2022,
-      "core": 8,
+      "core": 9,
       "foundation": 1,
       "adjacent": 0,
-      "total": 9
+      "total": 10
     },
     {
       "year": 2023,
@@ -109,17 +111,17 @@
     },
     {
       "year": 2024,
-      "core": 11,
+      "core": 12,
       "foundation": 2,
       "adjacent": 0,
-      "total": 13
+      "total": 14
     },
     {
       "year": 2025,
       "core": 10,
       "foundation": 0,
-      "adjacent": 0,
-      "total": 10
+      "adjacent": 1,
+      "total": 11
     },
     {
       "year": 2026,

@@ -6,9 +6,9 @@ Explore restoration learned without aligned task-specific degraded–clean targe
 
 **142 counted papers** · **59 real-data entries** · **160 full-inventory entries** · **6 evaluation tasks**
 
-Last curated: **2026-09-21**
+Resources synchronized: **2026-10-01** · Counted literature snapshot: **2026-09-21**
 
-[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
+[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Learning mechanisms and protocol](docs/METHODS.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
 
 ## Collection overview
 
@@ -16,7 +16,11 @@ Last curated: **2026-09-21**
 
 The counted corpus contains **68 six-task restoration papers**, **51 papers on super-resolution, underwater enhancement and sand/dust removal**, and **23 general or weather-translation papers**. Each paper belongs to one counting group and appears once. These are counts of the screened collection, not worldwide publication totals; 2026 is incomplete. [Full paper list and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv).
 
-The **82-record selected reading guide** below also includes methodological foundations and adjacent supervision settings. It overlaps the counted corpus and is not an additional 82 papers. Its **30 author-code links** are listed with access notes. [Counting rules](docs/SCOPE.md).
+The **85-record selected reading guide** below also includes methodological foundations and adjacent supervision settings. It overlaps the counted corpus and is not an additional 85 papers. Its **32 author-code links** are listed with access notes. [Counting rules](docs/SCOPE.md).
+
+## Learning mechanisms
+
+The [method guide](docs/METHODS.md) connects five overlapping families: domain translation, representation learning, diffusion-based modeling, prior-guided restoration, and normalizing flows. It explains the constraints they place on the missing correspondence between degraded and clean images, and lists the **12 comparison methods** with their original tasks and implementation links.
 
 ## Evaluation datasets
 
@@ -48,20 +52,20 @@ This navigation table counts the 68 papers in the six-task group. Task tags over
 
 Start with the data's **capture process and reference type**. Captured paired benchmarks, digitally synthesized pairs, independent image collections and scene correspondences support different evaluations.
 
-The [complete dataset catalog](docs/DATASET_CATALOG.md) provides the two synchronized inventories. The following 26-entry primer highlights reference construction and protocol distinctions.
+The [complete dataset catalog](docs/DATASET_CATALOG.md) provides the two synchronized inventories. The following 27-entry primer highlights reference construction and protocol distinctions.
 
 - [Captured paired data](docs/DATASETS.md#captured-paired-data): noisy/reference captures, real blur, controlled haze, exposure pairs, and video-derived rain or snow targets.
 - [Synthetic paired data](docs/DATASETS.md#synthetic-paired-data): digital or video-integrated degradations with corresponding clean targets.
 - [Unpaired collections](docs/DATASETS.md#unpaired-collections): independent-domain training pools and natural degraded images without aligned clean targets.
 - [Scene correspondence](docs/DATASETS.md#scene-correspondence): related scenes that should not be treated as pixel-aligned restoration references.
 
-Withholding correspondence can define an unpaired training protocol on paired data. It does not remove the need to document scene overlap, splits and reference use. The [dataset guide](docs/DATASETS.md) records these distinctions without combining incomparable scores.
+The comparison separately retrains or adapts every method on each task's unpaired training pools. Degraded and clean images are sampled independently, without supplying matched clean training targets; corresponding test references support evaluation. The [method and protocol guide](docs/METHODS.md#training-and-evaluation-protocol) explains this setting and the ten complementary metrics. Dataset acquisition, reference construction and release distinctions are detailed in the [dataset guide](docs/DATASETS.md).
 
 ## Papers by year
 
 ### Selected reading guide
 
-The tables below contain 82 selected and background records. For all 142 counted papers, including expanded restoration and translation coverage, use the [full corpus](docs/PUBLIC_SEARCH_2026.md).
+The tables below contain 85 selected and background records. For all 142 counted papers, including expanded restoration and translation coverage, use the [full corpus](docs/PUBLIC_SEARCH_2026.md).
 
 [2026](#year-2026) · [2025](#year-2025) · [2024](#year-2024) · [2023](#year-2023) · [2022](#year-2022) · [2021](#year-2021) · [2020](#year-2020) · [2019](#year-2019) · [2018](#year-2018) · [2017](#year-2017) · [2014](#year-2014) · [2009](#year-2009) · [2007](#year-2007) · [1971](#year-1971)
 
@@ -95,6 +99,7 @@ Titles link to primary papers or author records. “Author code” indicates a p
 | <a id="paper-Hu2025ICCV"></a>**TP-Diff** · [Learning Deblurring Texture Prior from Unpaired Data with Diffusion Model](https://openaccess.thecvf.com/content/ICCV2025/html/Liu_Learning_Deblurring_Texture_Prior_from_Unpaired_Data_with_Diffusion_Model_ICCV_2025_paper.html) | ICCV | deblurring | Not verified | Core restoration |
 | <a id="paper-Lin2025TPAMI"></a>**RSCP2GAN** · [Re-Boosting Self-Collaboration Parallel Prompt GAN for Unsupervised Image Restoration](https://researchportal.hkust.edu.hk/en/publications/re-boosting-self-collaboration-parallel-prompt-gan-for-unsupervis/) | IEEE TPAMI | denoising, deraining, desnowing | [Author code](https://github.com/linxin0/RSCP2GAN) | Core restoration |
 | <a id="paper-Tang2025TPAMI"></a>**DA-RCOT** · [Restoring Images Under Any Degradation: A Degradation-Aware Residual-Conditioned Optimal Transport Approach](https://doi.org/10.1109/TPAMI.2025.3562211) | IEEE TPAMI | denoising, deblurring, deraining, dehazing, low-light | Not verified | Core restoration |
+| <a id="paper-Deng2025DADn"></a>**DADn** · [Unsupervised Domain Adaptation for EM Image Denoising with Invertible Networks](https://ydchen0806.github.io/docs/Unsupervised_Domain_Adaptation_for_EM_Image_Denoising_With_Invertible_Networks.pdf) | IEEE TMI | denoising | [Author code](https://github.com/sydeng99/DADn) | Adjacent settings |
 | <a id="paper-Meanti2025ICCV"></a>**DDM** · [Unsupervised Imaging Inverse Problems with Diffusion Distribution Matching](https://openaccess.thecvf.com/content/ICCV2025/html/Meanti_Unsupervised_Imaging_Inverse_Problems_with_Diffusion_Distribution_Matching_ICCV_2025_paper.html) | ICCV | deblurring, super-resolution, operator calibration | Not verified | Core restoration |
 | <a id="paper-Zhou2025arXivRFDM"></a>**RFDM** · [Unsupervised Real-World Super-Resolution via Rectified Flow Degradation Modelling](https://arxiv.org/abs/2508.07214) | arXiv preprint | super-resolution | Not verified | Core restoration |
 | <a id="paper-Lan2025ICCV"></a>**DehazeSB** · [When Schrodinger Bridge Meets Real-World Image Dehazing with Unpaired Training](https://github.com/ywxjm/DehazeSB) | ICCV | dehazing | [Author code](https://github.com/ywxjm/DehazeSB) | Core restoration |
@@ -105,6 +110,7 @@ Titles link to primary papers or author records. “Author code” indicates a p
 
 | Paper / method | Venue | Task tags | Implementation | Scope |
 |---|---|---|---|---|
+| <a id="paper-Zhao2024NN"></a>**CCLformer** · [Cycle Contrastive Adversarial Learning with Structural Consistency for Unsupervised High-Quality Image Deraining Transformer](https://www.sciencedirect.com/science/article/pii/S0893608024003526) | Neural Networks | deraining | [Author code](https://github.com/ChenzhaoNju/CCLGAN) | Core restoration |
 | <a id="paper-Wu2024TMM"></a>**Cycle-Retinex** · [Cycle-Retinex: Unpaired Low-Light Image Enhancement via Retinex-Inline CycleGAN](https://github.com/mummmml/Cycle-Retinex) | IEEE TMM | low-light | [Author code](https://github.com/mummmml/Cycle-Retinex) | Core restoration |
 | <a id="paper-Wang2024CVPRDictSR"></a>**DictSR** · [Learning Coupled Dictionaries from Unpaired Data for Image Super-Resolution](https://openaccess.thecvf.com/content/CVPR2024/html/Wang_Learning_Coupled_Dictionaries_from_Unpaired_Data_for_Image_Super-Resolution_CVPR_2024_paper.html) | CVPR | super-resolution | Not verified | Core restoration |
 | <a id="paper-Sun2024TPAMI"></a>**SDFlow** · [Learning Many-to-Many Mapping for Unpaired Real-World Image Super-Resolution and Downscaling](https://doi.org/10.1109/TPAMI.2024.3428546) | IEEE TPAMI | super-resolution, downscaling | [Author code](https://github.com/sunwj/sdflow) | Core restoration |
@@ -127,7 +133,7 @@ Titles link to primary papers or author records. “Author code” indicates a p
 |---|---|---|---|---|
 | <a id="paper-lipman2023flow"></a>**Flow matching** · [Flow Matching for Generative Modeling](https://arxiv.org/abs/2210.02747) | ICLR | generative modeling | Not verified | Foundations |
 | <a id="paper-liu2023reflow"></a>**Rectified flow** · [Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow](https://arxiv.org/abs/2209.03003) | ICLR | generative modeling | Not verified | Foundations |
-| <a id="paper-liang2023iterative"></a>**CLIP-LIT** · [Iterative Prompt Learning for Unsupervised Backlit Image Enhancement](https://openaccess.thecvf.com/content/ICCV2023/papers/Liang_Iterative_Prompt_Learning_for_Unsupervised_Backlit_Image_Enhancement_ICCV_2023_paper.pdf) | ICCV | low-light | [Author code](https://github.com/ZhexinLiang/CLIP-LIT) | Core restoration |
+| <a id="paper-Liang2023ICCV"></a>**CLIP-LIT** · [Iterative Prompt Learning for Unsupervised Backlit Image Enhancement](https://openaccess.thecvf.com/content/ICCV2023/papers/Liang_Iterative_Prompt_Learning_for_Unsupervised_Backlit_Image_Enhancement_ICCV_2023_paper.pdf) | ICCV | low-light | [Author code](https://github.com/ZhexinLiang/CLIP-LIT) | Core restoration |
 | <a id="paper-Zheng2023TPAMI"></a>**LUD-VAE** · [Learn From Unpaired Data for Image Restoration: A Variational Bayes Approach](https://arxiv.org/abs/2204.10090) | IEEE TPAMI | denoising, super-resolution, low-light | [Author code](https://github.com/zhengdihan/LUD-VAE) | Core restoration |
 | <a id="paper-Zhang2023TPAMINeurMAP"></a>**NeurMAP** · [Neural Maximum a Posteriori Estimation on Unpaired Data for Motion Deblurring](https://doi.org/10.1109/TPAMI.2023.3303450) | IEEE TPAMI | deblurring | [Author code](https://github.com/yjzhang96/NeurMAP-deblur) | Core restoration |
 | <a id="paper-Wang2023TPAMIOTUR"></a>**OTUR** · [Optimal Transport for Unsupervised Denoising Learning](https://arxiv.org/abs/2108.02574) | IEEE TPAMI | denoising | [Author code](https://github.com/wangweiSJTU/OTUR) | Core restoration |
@@ -143,6 +149,7 @@ Titles link to primary papers or author records. “Author code” indicates a p
 | <a id="paper-Zhao2022NeurIPS"></a>**EGSDE** · [EGSDE: Unpaired Image-to-Image Translation via Energy-Guided Stochastic Differential Equations](https://arxiv.org/abs/2207.06635) | NeurIPS | general image translation | Not verified | Foundations |
 | <a id="paper-Zhao2022FCLGAN"></a>**FCL-GAN** · [FCL-GAN: A Lightweight and Real-Time Baseline for Unsupervised Blind Image Deblurring](https://opus.lib.uts.edu.au/handle/10453/169860) | ACM Multimedia | deblurring | [Author code](https://github.com/suiyizhao/FCL-GAN) | Core restoration |
 | <a id="paper-Ning2022IJCAI"></a>**USR-DU** · [Learning Degradation Uncertainty for Unsupervised Real-World Image Super-Resolution](https://www.ijcai.org/proceedings/2022/176) | IJCAI | super-resolution | Not verified | Core restoration |
+| <a id="paper-Liu2022LDCTFlow"></a>**LDCT flow model** · [Learning Low-Dose CT Degradation from Unpaired Data with Flow-Based Model](https://aapm.onlinelibrary.wiley.com/doi/10.1002/mp.15886) | Medical Physics | denoising | Not verified | Core restoration |
 | <a id="paper-Yang2022CVPR"></a>**D4** · [Self-Augmented Unpaired Image Dehazing via Density and Depth Decomposition](https://openaccess.thecvf.com/content/CVPR2022/html/Yang_Self-Augmented_Unpaired_Image_Dehazing_via_Density_and_Depth_Decomposition_CVPR_2022_paper.html) | CVPR | dehazing | [Author code](https://github.com/YaN9-Y/D4) | Core restoration |
 | <a id="paper-Son2022TPAMI"></a>**ADL** · [Toward Real-World Super-Resolution via Adaptive Downsampling Models](https://arxiv.org/abs/2109.03444) | IEEE TPAMI | super-resolution | [Author code](https://github.com/JaehaKim97/Adaptive-Downsampling-Model) | Core restoration |
 | <a id="paper-Chen2022ECCV"></a>**CDD-GAN** · [Unpaired Deep Image Dehazing Using Contrastive Disentanglement Learning](https://arxiv.org/abs/2203.07677) | ECCV | dehazing | Not verified | Core restoration |
@@ -189,7 +196,7 @@ Titles link to primary papers or author records. “Author code” indicates a p
 | <a id="paper-Krull2019CVPR"></a>**Noise2Void** · [Noise2Void: Learning Denoising from Single Noisy Images](https://arxiv.org/abs/1811.10980) | CVPR | denoising | Not verified | Adjacent settings |
 | <a id="paper-Zhu2019AAAI"></a>**RR-GAN** · [Single Image Rain Removal with Unpaired Information: A Differentiable Programming Perspective](https://ojs.aaai.org/index.php/AAAI/article/view/4971) | AAAI | deraining | Not verified | Core restoration |
 | <a id="paper-Lu2019CVPR"></a>**Disentangled deblurring** · [Unsupervised Domain-Specific Deblurring via Disentangled Representations](https://openaccess.thecvf.com/content_CVPR_2019/papers/Lu_Unsupervised_Domain-Specific_Deblurring_via_Disentangled_Representations_CVPR_2019_paper.pdf) | CVPR | deblurring | [Author code](https://github.com/ustclby/Unsupervised-Domain-Specific-Deblurring) | Core restoration |
-| <a id="paper-Jin2019ICIP"></a>**UD-GAN** · [Unsupervised Single Image Deraining with Self-Supervised Constraints](https://orca.cardiff.ac.uk/id/eprint/161670/) | ICIP | deraining | Not verified | Core restoration |
+| <a id="paper-Jin2019ICIPNoDOI"></a>**UD-GAN** · [Unsupervised Single Image Deraining with Self-Supervised Constraints](https://orca.cardiff.ac.uk/id/eprint/161670/) | ICIP | deraining | Not verified | Core restoration |
 
 <a id="year-2018"></a>
 

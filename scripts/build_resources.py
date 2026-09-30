@@ -155,7 +155,7 @@ def build_chart(rows, checked):
     axes[1].invert_yaxis()
     axes[1].bar_label(bars, padding=5, fontsize=10)
     axes[1].set_xlim(0, max(values + [1]) * 1.25 + 1)
-    axes[1].xaxis.set_major_locator(MaxNLocator(integer=True))
+    axes[1].xaxis.set_major_locator(MaxNLocator(integer=True, prune='upper'))
     axes[1].set_xlabel('Core records with this task tag')
     axes[1].set_title('Six-task coverage', loc='left', fontweight='bold', pad=16)
     for ax in axes:
@@ -180,6 +180,8 @@ def build_chart(rows, checked):
     path = ROOT / 'assets/collection-overview'
     fig.savefig(path.with_suffix('.png'), dpi=180)
     fig.savefig(path.with_suffix('.svg'), metadata={'Date': None})
+    svg = path.with_suffix('.svg')
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text(encoding='utf8').splitlines()) + '\n', encoding='utf8')
     (ROOT / '.preview').mkdir(exist_ok=True)
     Image.open(path.with_suffix('.png')).convert('L').save(ROOT / '.preview/overview-grayscale.png')
     plt.close(fig)
@@ -196,6 +198,8 @@ def build(checked):
     build_public_search()
     from build_dataset_catalog import build as build_dataset_catalog
     build_dataset_catalog()
+    from build_method_guide import build as build_method_guide
+    comparison_method_count = build_method_guide()
     corpus = read_csv(ROOT / 'data/public_search_papers.csv')
     corpus_scopes = collections.Counter(r['scope'] for r in corpus)
     corpus.sort(key=lambda r: (-int(r['year']), r['title'].lower()))
@@ -222,9 +226,9 @@ Explore restoration learned without aligned task-specific degraded–clean targe
 
 **{len(corpus)} counted papers** · **{len(main_datasets)} real-data entries** · **{len(full_datasets)} full-inventory entries** · **6 evaluation tasks**
 
-Last curated: **{checked}**
+Resources synchronized: **{checked}** · Counted literature snapshot: **{max(r['checked_on'] for r in corpus)}**
 
-[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
+[Full paper corpus](docs/PUBLIC_SEARCH_2026.md) · [Learning mechanisms and protocol](docs/METHODS.md) · [Datasets](docs/DATASET_CATALOG.md) · [Six tasks](#six-task-index) · [Selected reading guide](#papers-by-year) · [Code index](docs/CODE.md) · [Scope and counting](docs/SCOPE.md)
 
 ## Collection overview
 
@@ -233,6 +237,10 @@ Last curated: **{checked}**
 The counted corpus contains **{corpus_scopes['six_task']} six-task restoration papers**, **{corpus_scopes['broader_restoration']} papers on super-resolution, underwater enhancement and sand/dust removal**, and **{corpus_scopes['translation']} general or weather-translation papers**. Each paper belongs to one counting group and appears once. These are counts of the screened collection, not worldwide publication totals; 2026 is incomplete. [Full paper list and annual table](docs/PUBLIC_SEARCH_2026.md) · [Paper CSV](data/public_search_papers.csv) · [Year counts](data/public_search_year_counts.csv).
 
 The **{len(rows)}-record selected reading guide** below also includes methodological foundations and adjacent supervision settings. It overlaps the counted corpus and is not an additional {len(rows)} papers. Its **{linked} author-code links** are listed with access notes. [Counting rules](docs/SCOPE.md).
+
+## Learning mechanisms
+
+The [method guide](docs/METHODS.md) connects five overlapping families: domain translation, representation learning, diffusion-based modeling, prior-guided restoration, and normalizing flows. It explains the constraints they place on the missing correspondence between degraded and clean images, and lists the **{comparison_method_count} comparison methods** with their original tasks and implementation links.
 
 ## Evaluation datasets
 
@@ -264,7 +272,7 @@ The [complete dataset catalog](docs/DATASET_CATALOG.md) provides the two synchro
 - [Unpaired collections](docs/DATASETS.md#unpaired-collections): independent-domain training pools and natural degraded images without aligned clean targets.
 - [Scene correspondence](docs/DATASETS.md#scene-correspondence): related scenes that should not be treated as pixel-aligned restoration references.
 
-Withholding correspondence can define an unpaired training protocol on paired data. It does not remove the need to document scene overlap, splits and reference use. The [dataset guide](docs/DATASETS.md) records these distinctions without combining incomparable scores.
+The comparison separately retrains or adapts every method on each task's unpaired training pools. Degraded and clean images are sampled independently, without supplying matched clean training targets; corresponding test references support evaluation. The [method and protocol guide](docs/METHODS.md#training-and-evaluation-protocol) explains this setting and the ten complementary metrics. Dataset acquisition, reference construction and release distinctions are detailed in the [dataset guide](docs/DATASETS.md).
 
 ## Papers by year
 
@@ -288,13 +296,19 @@ The navigation conventions of the [All-in-One Image Restoration resource collect
 '''
     (ROOT / 'README.md').write_text(summary, encoding='utf-8')
     taskdoc = ['# Task index', '', '[Back to overview](../README.md)', '',
-               f'The {corpus_scopes["six_task"]} six-task records in the [counted corpus](PUBLIC_SEARCH_2026.md) are grouped by documented restoration task. Multi-task papers appear in more than one section.']
+               f'The {corpus_scopes["six_task"]} six-task records in the [counted corpus](PUBLIC_SEARCH_2026.md) are grouped by documented restoration task. Multi-task papers appear in more than one section. These counts refer to the frozen corpus group, not every paper in this resource. Papers counted under broader restoration or translation can also address a core task.']
     for task, label in TASKS:
         taskdoc += ['', f'<a id="{task}"></a>', '', f'## {label}', '',
                     '| Method / paper | Year | Supervision and access |', '|---|---:|---|']
         for r in corpus:
             if r['scope'] == 'six_task' and task in task_tags(r['tasks']):
                 taskdoc.append(f'| {link(paper_name(r), r["paper_url"])} | {r["year"]} | {md(access_text(r))} |')
+    corpus_keys = {r['citation_key'] for r in corpus}
+    extra_reading = [r for r in rows if r['scope'] == 'core' and r['id'] not in corpus_keys]
+    if extra_reading:
+        taskdoc += ['', '## Additional task-related reading', '',
+                    'These selected-guide additions are outside the frozen timeline count and do not change the task totals above.', '',
+                    paper_table(extra_reading, False)]
     taskdoc += ['', '## Related tasks and foundations', '',
                 'The [full corpus](PUBLIC_SEARCH_2026.md) includes underwater enhancement, super-resolution, sand/dust removal, and general/weather translation. Selected background works below are not relabelled as six-task evaluations.', '',
                 paper_table([r for r in rows if r['scope'] != 'core' or not set(task_tags(r['tasks'])) & {t for t, _ in TASKS}], False)]
@@ -315,7 +329,8 @@ The navigation conventions of the [All-in-One Image Restoration resource collect
     (ROOT / 'docs/CODE.md').write_text('\n'.join(codedoc) + '\n', encoding='utf-8')
     datasetdoc = ['# Dataset guide', '', '[Back to overview](../README.md)', '',
                   f'For the {len(main_datasets)}-entry real-input table, the full {len(full_datasets)}-entry inventory, and the six selected evaluation datasets, see the [complete dataset catalog](DATASET_CATALOG.md). This page is a smaller protocol-oriented primer.', '',
-                  'Training pairing and evaluation pairing are separate choices. References can be directly captured, processed estimates or scene correspondences. Follow the original release terms; this directory does not redistribute data.']
+                  'Training pairing and evaluation pairing are separate choices. References can be directly captured, processed estimates or scene correspondences. Follow the original release terms; this directory does not redistribute data.', '',
+                  'For the six-task comparison, all twelve methods are separately retrained or adapted on independent degraded and clean training pools. Matched clean images are not supplied as training targets; corresponding references are reserved for test evaluation. See the [method and protocol guide](METHODS.md#training-and-evaluation-protocol).']
     groups = [('captured-paired-data', 'Captured paired data', lambda r: r['pairing'] in ['paired', 'paired estimated target']),
               ('synthetic-paired-data', 'Synthetic paired data', lambda r: r['pairing'] == 'paired synthetic degradation'),
               ('unpaired-collections', 'Unpaired collections', lambda r: r['pairing'] == 'unpaired'),
@@ -331,7 +346,7 @@ The navigation conventions of the [All-in-One Image Restoration resource collect
 
 [Back to overview](../README.md)
 
-This is a selective, manually curated resource index, checked through **{checked}**. It is not a systematic-review census or a benchmark leaderboard.
+This is a selective, manually curated resource index, synchronized on **{checked}**. Its counted literature snapshot retains the **{max(r['checked_on'] for r in corpus)}** cutoff. Resource maintenance and code-link checks do not extend that literature-search cutoff. It is not a systematic-review census or a benchmark leaderboard.
 
 ## Primary counted corpus
 
@@ -340,6 +355,8 @@ The main overview uses [public_search_papers.csv](../data/public_search_papers.c
 ## Inclusion categories
 
 The following categories refer to the separate **{len(rows)}-record selected reading guide**, not to the primary counted corpus. The collections overlap and must not be added together.
+
+The selected guide can receive additions after the timeline screening date. These additions do not change the frozen corpus or its annual chart.
 
 - **Core restoration ({scopes['core']} records):** papers whose documented task includes restoration under an unpaired or unsupervised learning regime. Read the per-paper training-access note: generated pairs, pretrained priors and related-scene references can change the information available.
 - **Foundations ({scopes['foundation']} records):** general translation or generative methods that provide relevant tools but are not automatically restoration evaluations.
@@ -369,6 +386,8 @@ The source links remain the authority for each work's claims and reuse condition
     stats = {'last_curated': checked, 'paper_records': len(rows), 'scope_counts': dict(scopes),
              'counted_corpus_records': len(corpus), 'main_dataset_entries': len(main_datasets),
              'full_dataset_entries': len(full_datasets), 'selected_evaluation_tasks': 6,
+             'comparison_methods': comparison_method_count,
+             'literature_cutoff': max(r['checked_on'] for r in corpus),
              'counted_corpus_code_links': sum(bool(r['code_url']) for r in corpus),
              'counted_task_coverage_nonexclusive': corpus_coverage,
              'code_links': linked, 'dataset_records': len(datasets), 'task_counts_core_nonexclusive': coverage,

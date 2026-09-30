@@ -96,6 +96,10 @@ def main():
         if foundation_keys & {r.get('citation_key') for r in search}:
             errors.append('Out-of-scope foundation-restoration references entered the corpus')
     try:
+        from build_method_guide import build as check_methods
+        method_count = check_methods(check=True)
+        if stats.get('comparison_methods') != method_count:
+            errors.append('Comparison-method count differs from method guide')
         from build_dataset_catalog import build as check_datasets
         check_datasets(check=True)
         for filename, field in [('datasets_main.csv', 'main_dataset_entries'),

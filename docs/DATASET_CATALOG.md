@@ -2,7 +2,7 @@
 
 [Back to overview](../README.md) · [Protocol guide](DATASETS.md)
 
-This catalog has two complementary views: **59 task-specific entries** used in the six-task distribution comparison, and **160 task-specific entries** in the extended six-task inventory. Multi-task releases appear under each relevant task; these totals are not counts of unique dataset releases. The separate [26-entry protocol guide](DATASETS.md) is a curated starting point, not the complete catalog.
+This catalog has two complementary views: **59 task-specific entries** used in the six-task distribution comparison, and **160 task-specific entries** in the extended six-task inventory. Multi-task releases appear under each relevant task; these totals are not counts of unique dataset releases. The separate [27-entry protocol guide](DATASETS.md) is a curated starting point, not the complete catalog.
 
 **Real/Synth.** describes the degraded-input source. **Real** includes controlled physical capture, such as photographed artificial haze. It does not assert pixel alignment or imply that reference images were obtained without processing. Pairing is recorded separately: scene correspondence, approximate correspondence, unpaired data, and mixed supervision remain distinct.
 
@@ -19,7 +19,7 @@ The 59-entry view aggregates the reported splits for its input/reference counts.
 
 ## Six selected evaluation datasets
 
-These six resources cover the selected evaluation tasks. Unpaired training and reference-based evaluation are separate choices: training correspondence can be withheld while held-out references support evaluation. Follow the original release splits, registration rules, input tracks, and reference construction.
+These six resources cover the selected evaluation tasks. Every compared method is separately retrained or adapted for each task using independent degraded and clean training pools. Matched clean images are not supplied as training targets; corresponding test references support evaluation. The paired organization of a dataset does not therefore imply paired training. Follow the original release splits, registration rules, input tracks, and reference construction. See the [method and protocol guide](METHODS.md).
 
 | Task | Dataset | Capture / protocol focus |
 |---|---|---|
